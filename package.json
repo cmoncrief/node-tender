@@ -1,0 +1,25 @@
+{
+  "name": "tender",
+  "description": "Tender API client",
+  "version": "0.1.0",
+  "author": "Charles Moncrief <cmoncrief@gmail.com>",
+  "dependencies": {
+    "async": "~0.1.22",
+    "request": "~2.12.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "coffee-script": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cmoncrief/node-tender.git" 
+  },
+  "main": "lib/tender.js",
+  "scripts": {
+    "prepublish" : "cake build",
+    "test": "cake test"
+  },
+  "engines": { "node" : "*"},
+  "license": "MIT"
+}
