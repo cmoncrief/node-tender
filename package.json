@@ -3,6 +3,7 @@
   "description": "Tender API client",
   "version": "0.1.0",
   "author": "Charles Moncrief <cmoncrief@gmail.com>",
+  "keywords": ["tender", "api"],
   "dependencies": {
     "async": "~0.1.22",
     "request": "~2.12.0"
