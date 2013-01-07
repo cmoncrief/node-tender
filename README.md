@@ -14,7 +14,7 @@ The following will create a new API client and retrieve a list of all pending di
 
     var tender = require('tender')
 
-    client = tender.createClient({
+    var client = tender.createClient({
       token: 'your-api-token',
       subdomain: 'your-tender-subdomain'
     });
@@ -29,14 +29,14 @@ Authentication via API token or username/password are both supported. When creat
 
 ##### API Token:
 
-    client = tender.createClient({
+    var client = tender.createClient({
       token: 'your-api-token',
       subdomain: 'your-tender-subdomain'
     });
 
 ##### Username/password:
 
-    client = tender.createClient({
+    var client = tender.createClient({
       username: 'someone@somewhere.com',
       password: 'password123',
       subdomain: 'your-tender-subdomain'
