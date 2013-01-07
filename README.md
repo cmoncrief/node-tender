@@ -17,7 +17,7 @@ The following will create a new API client and retrieve a list of all pending di
     var client = tender.createClient({
       token: 'your-api-token',
       subdomain: 'your-tender-subdomain'
-    });
+    })
 
     client.getDiscussions({state: 'pending'}, function(err, data) {
       console.dir(data)
@@ -32,7 +32,7 @@ Authentication via API token or username/password are both supported. When creat
     var client = tender.createClient({
       token: 'your-api-token',
       subdomain: 'your-tender-subdomain'
-    });
+    })
 
 ##### Username/password:
 
@@ -40,7 +40,7 @@ Authentication via API token or username/password are both supported. When creat
       username: 'someone@somewhere.com',
       password: 'password123',
       subdomain: 'your-tender-subdomain'
-    });
+    })
 
 ## Discussions
 
