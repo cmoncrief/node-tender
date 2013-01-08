@@ -1,7 +1,7 @@
 assert = require 'assert'
 client = require('../lib/tender').createClient()
 
-describe 'Discussions', ->
+describe 'Get discussions', ->
     
   it 'should get a list of discussions', (done) ->
     options = max: 20
@@ -9,13 +9,6 @@ describe 'Discussions', ->
       assert.ifError err
       assert data.length
       assert data.length <= 20
-      done()
-
-  it 'should get a single dicussion by id', (done) ->
-    options = {max: 20, id: client.testData.discussionId}
-    client.getDiscussions options, (err, data) ->
-      assert.ifError err
-      assert.equal data.length, 1
       done()
   
   it 'should get discussions by state (open)', (done) ->
@@ -65,3 +58,22 @@ describe 'Discussions', ->
       assert err
       done()
 
+describe 'Show discussion', ->
+
+  it 'should show details for a single dicussion by id', (done) ->
+    options = {id: client.testData.discussionId}
+    client.showDiscussion options, (err, data) ->
+      assert.ifError err
+      assert !Array.isArray(data)
+      assert.equal data.id, client.testData.discussionId
+      done()
+
+  it 'should error if show is called with no id', (done) ->
+    client.showDiscussion {}, (err, data) ->
+      assert err
+      done()
+
+  it 'should error if show is called with an invalid id', (done) ->
+    client.showDiscussion {id: 'invalid'}, (err, data) ->
+      assert err
+      done()

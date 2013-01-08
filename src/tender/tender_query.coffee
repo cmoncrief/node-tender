@@ -128,6 +128,7 @@ class TenderQuery
         index = i.href.lastIndexOf '/'
         i.id = i.href.substring(index + 1)
 
+
     output = @filter output 
 
     @callback err, output

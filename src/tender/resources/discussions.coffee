@@ -39,6 +39,33 @@ module.exports = class Discussions
       tenderQuery @client, @options, (err, data) ->
         callback err, data
 
+  # Retrieve a single discussion object by Id.
+  #
+  # Parameters:
+  #
+  # options          - (see below)
+  # callback         - Called with errors and results
+  #
+  # Available options:
+  #
+  # id               - The discussion id to return
+  #
+  show: (options, callback) ->
+
+    @options = options
+    
+    unless @options.id 
+      return callback new Error("No discussion Id specified")
+
+    @options.uri = "#{@client.baseURI}/discussions/#{@options.id}"
+
+    tenderQuery @client, @options, (err, data) ->
+
+      if err then return callback(err)
+      unless data.length then return callback(new Error("Discussion not found"))
+
+      callback null, data[0]
+
   # Constructs the query string based on specified filter options
   buildQueryString: ->
     
@@ -56,7 +83,6 @@ module.exports = class Discussions
     uri = @client.baseURI
 
     postURI = ""
-    postURI = "#{@options.id}" if @options.id
 
     if @options.state and @options.state not in states
       return callback new Error('Invalid discussion state')

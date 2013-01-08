@@ -48,7 +48,6 @@ Authentication via API token or username/password are both supported. When creat
 
 Retrieves an array of discussions, filtered by the options specified in the first argument:
 
-* `id`              - Filter by a specific discussion Id
 * `name`            - Filter by the exact discussion title
 * `pattern`         - Filter by regexp pattern on discussion title
 * `category`        - Filter by category name
@@ -69,6 +68,20 @@ The following will retrieve a maximum of 100 discussions in the 'Problems' categ
       max: 100
     }, function(err, data) {
       console.dir(data.length)
+    })
+
+### client.showDiscussion(options, callback)
+
+Retrieves a single discussion object with comments. The first argument currently supports a single option: 
+
+* `id`              - The discussion Id to retrieve
+
+##### Example:
+
+The following will retrieve a single discussion object:
+
+    client.showDiscussion({id : '123456679'}, function(err, data) {
+      console.dir(data)
     })
 
 ## Categories

@@ -37,6 +37,10 @@ module.exports = class Client
   getDiscussions: (options, callback) ->
     @discussions.get options, callback
 
+  # GET Discussions (show details)
+  showDiscussion: (options, callback) ->
+    @discussions.show options, callback
+
   # GET Queues
   getQueues: (options, callback) ->
     @queues.get options, callback
@@ -45,6 +49,6 @@ module.exports = class Client
   getCategories: (options, callback) ->
     @categories.get options, callback
 
-  # Users
+  # GET Users
   getUsers: (options, callback) ->
     @users.get options, callback
