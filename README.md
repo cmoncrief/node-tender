@@ -131,7 +131,7 @@ The configuration file should follow the following format. All fields are option
       "testData" : {
         "queue" : "Test queue",
         "category" : "Test category",
-        "categoryId" : "Test category Id"
+        "categoryId" : "Test category Id",
         "user" : "Charles Moncrief",
         "userId" : "12345",
         "discussionId" : "12345",
