@@ -26,9 +26,10 @@ module.exports = class Categories
     @options = options
 
     @options.uri = "#{@client.baseURI}/categories"
-    @options.uri = "#{@options.uri}/#{options.id}" if @options.Id
+    @options.uri = "#{@options.uri}/#{options.id}" if @options.id
 
     tenderQuery @client, @options, (err, data) ->
+      unless data then return callback(new Error("Category not found"))
       callback err, data
 
 

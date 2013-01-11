@@ -15,3 +15,9 @@ describe 'Categories', ->
       assert.ifError err
       assert data.length is 1
       done()
+
+  it 'should get a category by id', (done) ->
+    client.getCategories {id: client.testData.categoryId}, (err, data) ->
+      assert.ifError err
+      assert data
+      done()
