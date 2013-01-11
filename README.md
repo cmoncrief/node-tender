@@ -131,7 +131,7 @@ The configuration file should follow the following format. All fields are option
       "testData" : {
         "queue" : "Test queue",
         "category" : "Test category",
-        "categoryId" : "Test category Id",
+        "categoryId" : "12345",
         "user" : "Charles Moncrief",
         "userId" : "12345",
         "discussionId" : "12345",
@@ -152,6 +152,7 @@ the `testData` object as follows:
 
 * `queue` - The name of a queue in your account.
 * `category` - The name of a category in your account.
+* `categoryId` - The id of a category in your account.
 * `user` - The full name of a user belonging to your Tender account.
 * `userId` - The id of a user belonging to your Tender account.
 * `discussionId` - The id of any discussion belonging to your account
