@@ -53,7 +53,7 @@ Creates a discussion and returns the new object. Takes the following options:
 * `body`            - Body of initial comment. **(required)**
 * `public`          - Public/private switch. Defaults to true.
 * `skipSpam`        - Ignore spam checking. Defaults to true.
-# `uniqueId`        - Unique Id of poster, for use with SSO. 
+* `uniqueId`        - Unique Id of poster, for use with SSO. 
 * `authorEmail`     - Email to post under. If not specified, uses the authenticated user.
 * `authorName`      - Name to post under. If not specified, uses the authenticated user.
 * `trusted`         - Skip spam checking if this is a new user. Defaults to true.
@@ -115,7 +115,7 @@ Replies to a discussion with a new comment. Takes the following options in the f
 * `body`            - The body text of the reply. **(required)**
 * `internal`        - Toggle comment to internal only. Defaults to false.
 * `skipSpam`        - Ignore spam checking. Defaults to true.
-# `uniqueId`        - Unique Id of poster, for use with SSO. 
+* `uniqueId`        - Unique Id of poster, for use with SSO. 
 * `authorEmail`     - Email to post under. If not specified, uses the authenticated user.
 * `authorName`      - Name to post under. If not specified, uses the authenticated user.
 * `trusted`         - Skip spam checking if this is a new user. Defaults to true.
