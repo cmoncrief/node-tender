@@ -44,6 +44,31 @@ Authentication via API token or username/password are both supported. When creat
 
 ## Discussions
 
+### client.createDiscussion(options, callback)
+
+Creates a discussion and returns the new object. Takes the following options:
+
+* `category`        - Category name to post under. **(required)**
+* `title`           - Discussion title. **(required)**
+* `body`            - Body of initial comment. **(required)**
+* `public`          - Public/private switch. Defaults to true.
+* `skipSpam`        - Ignore spam checking. Defaults to true.
+# `uniqueId`        - Unique Id of poster, for use with SSO. 
+* `authorEmail`     - Email to post under. If not specified, uses the authenticated user.
+* `authorName`      - Name to post under. If not specified, uses the authenticated user.
+* `trusted`         - Skip spam checking if this is a new user. Defaults to true.
+* `extras`          - Object hash containing additional attributes.
+
+#### Example:
+
+    client.createDiscussion({
+      category: 'Problems',
+      title: 'Example discussion',
+      body: 'Help!'
+    }, function(err, data) {
+      console.dir(data)
+    })
+
 ### client.getDiscussions(options, callback)
 
 Retrieves an array of discussions, filtered by the options specified in the first argument:
@@ -78,10 +103,42 @@ Retrieves a single discussion object with comments. The first argument currently
 
 ##### Example:
 
-The following will retrieve a single discussion object:
-
     client.showDiscussion({id : '123456679'}, function(err, data) {
       console.dir(data)
+    })
+
+### client.replyDiscussion(options, callback)
+
+Replies to a discussion with a new comment. Takes the following options in the first argument:
+
+* `id`              - The discussion Id to reply to. **(required)**
+* `body`            - The body text of the reply. **(required)**
+* `internal`        - Toggle comment to internal only. Defaults to false.
+* `skipSpam`        - Ignore spam checking. Defaults to true.
+# `uniqueId`        - Unique Id of poster, for use with SSO. 
+* `authorEmail`     - Email to post under. If not specified, uses the authenticated user.
+* `authorName`      - Name to post under. If not specified, uses the authenticated user.
+* `trusted`         - Skip spam checking if this is a new user. Defaults to true.
+
+##### Example:
+
+    client.replyDiscussion({
+      id: '123456679',
+      body: 'Example reply',
+    }, function(err, data) {
+      console.dir(data)
+    })
+
+### client.deleteDiscussion(options, callback)
+
+Fully deletes a single discussion. The first argument currently supports single option:
+
+* `id`              - The discussion Id to delete
+
+##### Example:
+
+    client.deleteDiscussion({id : '123456679'}, function(err, data) {
+      console.log(data)
     })
 
 ## Categories
@@ -158,5 +215,4 @@ the `testData` object as follows:
 * `discussionId` - The id of any discussion belonging to your account
 * `pattern` - A regexp pattern that will match the title of at least one Open discussion on your account.
 
-
-__All tests perform read operations only. No data will be modified.__
+A single discussion will be created under the `category` specified above, replied to, and deleted as part of the tests. All other tests perform read operations only.

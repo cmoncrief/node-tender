@@ -33,22 +33,26 @@ module.exports = class Client
 
     @baseURI = "https://api.tenderapp.com/#{@subdomain}"
 
-  # GET Discussions
   getDiscussions: (options, callback) ->
     @discussions.get options, callback
 
-  # GET Discussions (show details)
   showDiscussion: (options, callback) ->
     @discussions.show options, callback
 
-  # GET Queues
+  createDiscussion: (options, callback) ->
+    @discussions.post options, callback
+
+  replyDiscussion: (options, callback) ->
+    @discussions.reply options, callback
+
+  deleteDiscussion: (options, callback) ->
+    @discussions.delete options, callback
+
   getQueues: (options, callback) ->
     @queues.get options, callback
 
-  # GET Categories
   getCategories: (options, callback) ->
     @categories.get options, callback
 
-  # GET Users
   getUsers: (options, callback) ->
     @users.get options, callback
