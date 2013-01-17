@@ -55,11 +55,21 @@ describe 'Discussion creation and replying', ->
       if data?.id then discussionId = data.id
       done()
 
-  it 'should return an error if an invalid category is specfied', (done) ->
+  it 'should return an error if an invalid category is specified', (done) ->
     discussion.category = "Invalid Category For Testing"
     client.createDiscussion discussion, (err, data) ->
       assert err
       if data?.id then discussionId = data.id
+      done()
+
+  it 'should return an error for an invalid action', (done) ->
+    client.actionDiscussion {id: discussionId, action: 'transmogrify'}, (err, data) ->
+      assert err
+      done()
+
+  it 'should return an error for an invalid discussion', (done) ->
+    client.actionDiscussion {id: '-1', action: 'resolve'}, (err, data) ->
+      assert err
       done()
 
   it 'should reply to a discussion', (done) ->
@@ -80,9 +90,59 @@ describe 'Discussion creation and replying', ->
       assert newComment
       done()
 
+  it 'should toggle the discussion to public', (done) ->
+    client.toggleDiscussion {id: discussionId}, (err, data) ->
+      assert.ifError err
+      assert data and data.id
+      assert data.public
+      done()
+
+  it 'should resolve the discussion', (done) ->
+    client.resolveDiscussion {id: discussionId}, (err, data) ->
+      assert.ifError err
+      assert data and data.id
+      assert.equal data.state, 'resolved'
+      done()
+
+  it 'should unresolve the discussion', (done) ->
+    client.reopenDiscussion {id: discussionId}, (err, data) ->
+      assert.ifError err
+      assert data and data.id
+      assert.equal data.state, 'open'
+      done()
+
+  it 'should queue the discussion', (done) ->
+    options = id: discussionId, action: 'queue', queue: client.testData.queue
+    client.queueDiscussion options, (err, data) ->
+      assert.ifError err
+      assert data.result
+      done()
+
+  it 'should unqueue the discussion', (done) ->
+    options = id: discussionId, queue: client.testData.queue
+    client.unqueueDiscussion options, (err, data) ->
+      assert.ifError err
+      assert data.result
+      done()
+
+  it 'should acknowledge the discussion', (done) ->
+    client.acknowledgeDiscussion {id: discussionId}, (err, data) ->
+      assert.ifError err
+      assert data and data.id
+      assert !data.unread
+      done()
+
+  it 'should change the discussion category', (done) ->
+    options = id: discussionId, queue: client.testData.category
+    client.categorizeDiscussion options, (err, data) ->
+      assert.ifError err
+      assert data.result
+      done()
+
   after (done) ->
     client.deleteDiscussion {id: discussionId}, (err, data) ->
       assert.ifError err
+      assert data.result
       done()
 
 describe 'Discussion delete', ->

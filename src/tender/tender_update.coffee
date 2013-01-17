@@ -72,10 +72,20 @@ class TenderUpdate
   # Perform final validation and mapping on the result object
   finalize: (response, body, callback) ->
 
-    if body?.href?
-      body.id = body.href.substring(body.href.lastIndexOf('/') + 1)
+    if body is ' '
+      data = {result: true, message: 'Action successful'}
+    else if typeof body is 'string'
+      try
+        data = JSON.parse body
+      catch error
+        return callback new Error("(Tender) #{body}")
+    else
+      data = body
 
-    callback null, body
+    if data?.href?
+      data.id = data.href.substring(data.href.lastIndexOf('/') + 1)
+
+    callback null, data
 
 tenderUpdate = (client, options, callback) ->
   new TenderUpdate(client, options, callback)

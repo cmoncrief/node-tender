@@ -1,8 +1,11 @@
 async        = require 'async'
+morph        = require 'morph'
 tenderQuery  = require '../tender_query'
 tenderUpdate = require '../tender_update'
 
-states = ['new', 'open', 'assigned', 'resolved', 'pending', 'deleted']
+states  = ['new', 'open', 'assigned', 'resolved', 'pending', 'deleted']
+actions = ['toggle', 'resolve', 'unresolve', 'queue', 'unqueue', 
+           'acknowledge', 'restore', 'changeCategory']
 
 module.exports = class Discussions
 
@@ -165,6 +168,57 @@ module.exports = class Discussions
       if err then return callback(err)
       unless data then return callback(new Error("Error deleting discussion"))
       callback null, data
+
+
+  # Perform an action on a single discusison.
+  #
+  # Parameters:
+  #
+  # options          - (see below)
+  # callback         - Called with errors and results
+  #
+  # Available options:
+  #
+  # id               - The discussion id to action
+  # action           - The action to perform
+  # queue            - The queue to use for queue actions
+  # category         - The category to use for category actions
+  #
+  action: (options, callback) ->
+
+    unless options.action then return callback(new Error("No action specified"))
+    unless options.action in actions then return callback(new Error("Invalid action"))
+    unless options.id then return callback(new Error("No discussion specified"))
+    
+    @options = options
+    @options.qs = {}
+
+    @buildActionURI =>
+      tenderUpdate @client, @options, (err, data) ->
+        if err then return callback(err)
+        callback null, data
+
+  # Construct the URI for discussion actions. Resolves the id of the associated
+  # resource if needed.
+  buildActionURI: (callback) ->
+
+    action = morph.toSnake @options.action
+    @options.uri = "#{@client.baseURI}/discussions/#{@options.id}/#{action}"
+
+    if action in ['queue', 'unqueue']
+      @client.getQueues {name: @options.queue}, (err, data) =>
+        if err then return callback(err)
+        unless data.length then return callback(new Error("Queue not found"))
+        @options.qs.queue = data[0].id
+        callback null
+    else if action is 'category'
+      @client.getCategories {name: @options.queue}, (err, data) =>
+        if err then return callback(err)
+        unless data.length then return callback(new Error("Queue not found"))
+        @options.qs.to = data[0].id
+        callback null
+    else
+      callback null
 
   # Construct the URI for create discussion requests by fetching the Id of 
   # the category that has been specified.

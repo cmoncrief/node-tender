@@ -42,7 +42,7 @@ Authentication via API token or username/password are both supported. When creat
       subdomain: 'your-tender-subdomain'
     })
 
-## Discussions
+## Discussion creation
 
 ### client.createDiscussion(options, callback)
 
@@ -69,17 +69,19 @@ Creates a discussion and returns the new object. Takes the following options:
       console.dir(data)
     })
 
+## Listing discussions
+
 ### client.getDiscussions(options, callback)
 
 Retrieves an array of discussions, filtered by the options specified in the first argument:
 
-* `name`            - Filter by the exact discussion title
-* `pattern`         - Filter by regexp pattern on discussion title
-* `category`        - Filter by category name
-* `queue`           - Filter by queue name
-* `state`           - Filter by discussion state
-* `userId`          - Filter by user Id
-* `userEmail`       - Filter by user email
+* `name`            - Filter by the exact discussion title.
+* `pattern`         - Filter by regexp pattern on discussion title.
+* `category`        - Filter by category name.
+* `queue`           - Filter by queue name.
+* `state`           - Filter by discussion state.
+* `userId`          - Filter by user Id.
+* `userEmail`       - Filter by user email.
 * `max`             - The maximum number of results to return. Defaults to 1000.
 
 ##### Example:
@@ -95,17 +97,21 @@ The following will retrieve a maximum of 100 discussions in the 'Problems' categ
       console.dir(data.length)
     })
 
+## Discussion details
+
 ### client.showDiscussion(options, callback)
 
 Retrieves a single discussion object with comments. The first argument currently supports a single option: 
 
-* `id`              - The discussion Id to retrieve
+* `id`              - The discussion Id to retrieve.
 
 ##### Example:
 
     client.showDiscussion({id : '123456679'}, function(err, data) {
       console.dir(data)
     })
+
+## Discussion replies
 
 ### client.replyDiscussion(options, callback)
 
@@ -129,13 +135,39 @@ Replies to a discussion with a new comment. Takes the following options in the f
       console.dir(data)
     })
 
-### client.deleteDiscussion(options, callback)
+## Discussion actions
 
-Fully deletes a single discussion. The first argument currently supports single option:
+The following discussion actions are supported. For more detail, please see the [discussion API documentation](http://help.tenderapp.com/kb/api/discussions).
 
-* `id`              - The discussion Id to delete
+* __client.resolveDiscussion(options, callback)__
+* __client.reopenDiscussion(options, callback)__
+* __client.acknowledgeDiscussion(options, callback)__
+* __client.queueDiscussion(options, callback)__
+* __client.unqueueDiscussion(options, callback)__
+* __client.categorizeDiscussion(options, callback)__
+* __client.restoreDiscussion(options, callback)__
+* __client.toggleDiscussion(options, callback)__
+* __client.deleteDiscussion(options, callback)__
 
-##### Example:
+All discussion actions support the following options:
+
+* `id`             - The discussion Id to perform the action on. **(required)**
+* `queue`          - Only specified for queue functions.
+* `category`       - Only specified for category functions.
+
+##### Examples:
+
+    client.queueDiscussion({id : '123456679', queue: 'Work'}, function(err, data) {
+      console.log(data)
+    })
+
+    client.categorizeDiscussion({id : '123456679', category: 'Critical'}, function(err, data) {
+      console.log(data)
+    })
+
+    client.resolveDiscussion({id : '123456679'}, function(err, data) {
+      console.log(data)
+    })
 
     client.deleteDiscussion({id : '123456679'}, function(err, data) {
       console.log(data)
@@ -147,9 +179,9 @@ Fully deletes a single discussion. The first argument currently supports single 
 
 Retrieves an array of categories, filtered by the options specified in the first argument:
 
-* `id`              - Filter by a specific category Id
-* `name`            - Filter by the exact category name
-* `pattern`         - Filter by regexp pattern on category name
+* `id`              - Filter by a specific category Id.
+* `name`            - Filter by the exact category name.
+* `pattern`         - Filter by regexp pattern on category name.
 * `max`             - The maximum number of results to return. Defaults to 1000.
 
 ## Queues
@@ -158,9 +190,9 @@ Retrieves an array of categories, filtered by the options specified in the first
 
 Retrieves an array of queues, filtered by the options specified in the first argument:
 
-* `id`              - Filter by a specific queue Id
-* `name`            - Filter by the exact queue name
-* `pattern`         - Filter by regexp pattern on queue name
+* `id`              - Filter by a specific queue Id.
+* `name`            - Filter by the exact queue name.
+* `pattern`         - Filter by regexp pattern on queue name.
 * `max`             - The maximum number of results to return. Defaults to 1000.
 
 ## Users
@@ -169,14 +201,14 @@ Retrieves an array of queues, filtered by the options specified in the first arg
 
 Retrieves an array of users, filtered by the options specified in the first argument:
 
-* `id`              - Filter by a specific user Id
-* `name`            - Filter by the exact user name
-* `pattern`         - Filter by regexp pattern on user name
+* `id`              - Filter by a specific user Id.
+* `name`            - Filter by the exact user name.
+* `pattern`         - Filter by regexp pattern on user name.
 * `max`             - The maximum number of results to return. Defaults to 1000.
 
 ## Local configuration
 
-Client configuration data can optionally be read from a local file if you'd like to keep your authentication data separated from your code. Place a file named `tender_config.json` in the root directory of your application to use it in place of runtime configuration. No special code is neccessary - the file will automatically be loaded if it exists. 
+Client configuration data can optionally be read from a local file if you'd like to keep your authentication data separated from your code. Place a file named `tender__config.json` in the root directory of your application to use it in place of runtime configuration. No special code is neccessary - the file will automatically be loaded if it exists. 
 
 The configuration file should follow the following format. All fields are optional and will be overridden by runtime parameters if specified. The `testData` object is used by the automated tests and should be omitted unless you plan on running them. See below for detail.
 

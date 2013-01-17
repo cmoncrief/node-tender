@@ -1,7 +1,7 @@
 {
   "name": "tender",
   "description": "Tender API client",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Charles Moncrief <cmoncrief@gmail.com>",
   "keywords": [
     "tender",

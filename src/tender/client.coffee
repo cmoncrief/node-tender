@@ -45,6 +45,33 @@ module.exports = class Client
   replyDiscussion: (options, callback) ->
     @discussions.reply options, callback
 
+  actionDiscussion: (options, callback) ->
+    @discussions.action options, callback
+
+  toggleDiscussion: (options, callback) ->
+    @discussions.action {action: 'toggle', id: options.id}, callback
+
+  resolveDiscussion: (options, callback) ->
+    @discussions.action {action: 'resolve', id: options.id}, callback
+
+  reopenDiscussion: (options, callback) ->
+    @discussions.action {action: 'unresolve', id: options.id}, callback
+
+  acknowledgeDiscussion: (options, callback) ->
+    @discussions.action {action: 'acknowledge', id: options.id}, callback
+
+  restoreDiscussion: (options, callback) ->
+    @discussions.action {action: 'restore', id: options.id}, callback
+
+  categorizeDiscussion: (options, callback) ->
+    @discussions.action {action: 'changeCategory', id: options.id, category: options.category}, callback
+
+  queueDiscussion: (options, callback) ->
+    @discussions.action {action: 'queue', id: options.id, queue: options.queue}, callback
+
+  unqueueDiscussion: (options, callback) ->
+    @discussions.action {action: 'unqueue', id: options.id, queue: options.queue}, callback
+
   deleteDiscussion: (options, callback) ->
     @discussions.delete options, callback
 
