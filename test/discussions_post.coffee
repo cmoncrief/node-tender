@@ -111,6 +111,12 @@ describe 'Discussion creation and replying', ->
       assert.equal data.state, 'open'
       done()
 
+  it 'should return an error if no queue is specified for queueing', (done) ->
+    options = id: discussionId
+    client.queueDiscussion options, (err, data) ->
+      assert err
+      done()
+
   it 'should queue the discussion', (done) ->
     options = id: discussionId, action: 'queue', queue: client.testData.queue
     client.queueDiscussion options, (err, data) ->
@@ -132,8 +138,14 @@ describe 'Discussion creation and replying', ->
       assert !data.unread
       done()
 
+  it 'should return an error if no category is specified for categorize', (done) ->
+    options = id: discussionId
+    client.categorizeDiscussion options, (err, data) ->
+      assert err
+      done()
+
   it 'should change the discussion category', (done) ->
-    options = id: discussionId, queue: client.testData.category
+    options = id: discussionId, category: client.testData.category
     client.categorizeDiscussion options, (err, data) ->
       assert.ifError err
       assert data.result

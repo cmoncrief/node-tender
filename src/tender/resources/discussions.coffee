@@ -193,7 +193,9 @@ module.exports = class Discussions
     @options = options
     @options.qs = {}
 
-    @buildActionURI =>
+    @buildActionURI (err) =>
+      if err then return callback(err)
+
       tenderUpdate @client, @options, (err, data) ->
         if err then return callback(err)
         callback null, data
@@ -206,15 +208,17 @@ module.exports = class Discussions
     @options.uri = "#{@client.baseURI}/discussions/#{@options.id}/#{action}"
 
     if action in ['queue', 'unqueue']
+      unless @options.queue then return callback(new Error("No queue specified"))
       @client.getQueues {name: @options.queue}, (err, data) =>
         if err then return callback(err)
         unless data.length then return callback(new Error("Queue not found"))
         @options.qs.queue = data[0].id
         callback null
-    else if action is 'category'
-      @client.getCategories {name: @options.queue}, (err, data) =>
+    else if action is 'change_category'
+      unless @options.category then return callback(new Error("No category specified"))
+      @client.getCategories {name: @options.category}, (err, data) =>
         if err then return callback(err)
-        unless data.length then return callback(new Error("Queue not found"))
+        unless data.length then return callback(new Error("Category not found"))
         @options.qs.to = data[0].id
         callback null
     else
